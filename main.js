@@ -1,27 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <title>PanoramaView Example</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <style>
-      body {
-        margin: 0px;
-        overflow: hidden;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="stage"></div>
-
-  <script src="three.min.js"></script>
-  <script src="OrbitControls.js"></script>
-  <script src="main.js"></script>
-
-
-
-
-  <script>
 (function(){
 
   var width = window.innerWidth,
@@ -34,15 +10,14 @@
   //mesh
 
   var geometry = new THREE.SphereGeometry( 5, 60, 40 );
-	geometry.scale( - 1, 1, 1 );
+    geometry.scale( - 1, 1, 1 );
 
-	var material = new THREE.MeshBasicMaterial( {
-	   map: THREE.ImageUtils.loadTexture( './test.jpg' )
-	} );
+  var material = new THREE.MeshBasicMaterial( {
+       map: THREE.ImageUtils.loadTexture( 'test.jpg' )
+  } );
 
-	sphere = new THREE.Mesh( geometry, material );
-
-	scene.add( sphere );
+  sphere = new THREE.Mesh( geometry, material );
+  scene.add( sphere );
 
   //camera
 
@@ -68,19 +43,22 @@
 
   var controls = new THREE.OrbitControls(camera,renderer.domElement);
 
-
   function render(){
-
     requestAnimationFrame(render);
-    sphere.rotation.y += 0.1 * Math.PI/180;
+    sphere.rotation.y += 0.05 * Math.PI/180;
+    //画面リサイズ対応
+    window.addEventListener( 'resize', onWindowResize, false );
     renderer.render(scene,camera);
     controls.update();
   }
   render();
 
+
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+
+
 })();
-
-
-  </script>
-  </body>
-</html>
